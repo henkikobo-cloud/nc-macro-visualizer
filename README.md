@@ -207,4 +207,5 @@ python3 -m unittest discover -s tests
 - [Design Philosophy](docs/design.md)
 - [Limitations](limitations.md)
 - [Changelog](CHANGELOG.md)
-
+- [Release Notes v0.1.0](RELEASE_NOTES_v0.1.0.md)
+- [License](LICENSE)
