@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ControlFlowGraph",
+  "type": "object",
+  "required": ["schema_version", "source_name", "nodes", "edges", "entry_node_id", "exit_node_ids"],
+  "properties": {
+    "schema_version": { "const": "cfg/v0.3" },
+    "source_name": { "type": "string" },
+    "entry_node_id": { "type": "string" },
+    "exit_node_ids": { "type": "array", "items": { "type": "string" } },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "kind", "source_line_no", "source_label", "source_text", "statements"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": {
+            "enum": ["entry", "exit", "basic_block", "decision", "call_site", "jump_source", "unresolved"]
+          },
+          "source_line_no": { "type": ["integer", "null"] },
+          "source_label": { "type": ["string", "null"] },
+          "source_text": { "type": ["string", "null"] },
+          "statements": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source", "target", "kind", "condition"],
+        "properties": {
+          "source": { "type": "string" },
+          "target": { "type": "string" },
+          "kind": {
+            "enum": ["forward", "back", "branch_true", "branch_false", "call", "return", "jump"]
+          },
+          "condition": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

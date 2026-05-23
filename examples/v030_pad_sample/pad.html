@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAD-Inspired View | 04_variables.nc</title>
+  <link rel="stylesheet" href="pad.css">
+</head>
+<body>
+  <main class="pad-page">
+    <p class="pad-disclaimer">本ツールは機械動作を保証しません。実機での実行前に必ず確認してください。</p>
+    <h1>04_variables.nc</h1>
+<div class="pad-sequence pad-root" style="--depth: 0">
+  <div class="pad-sequence-line" aria-hidden="true"></div>
+  <div class="pad-sequence-items">
+    <div class="pad-element pad-terminal pad-start" style="--depth: 1">
+      <div class="pad-terminal-box">
+        <span class="pad-terminal-mark">▶</span>
+        <span class="pad-terminal-label">プログラム開始</span>
+      </div>
+    </div>
+    <div class="pad-element pad-process" style="--depth: 1">
+      <div class="pad-box">
+        <div class="pad-box-header">
+          <div class="pad-title"><span class="pad-seq-number">N10</span><span class="pad-title-separator">:</span><span class="pad-title-text">値を計算する</span></div>
+          <div class="pad-line-trace">line 3</div>
+        </div>
+        <div class="pad-summary">#100 と #101 を足して #500 に入れます</div>
+        <div class="pad-source"><span>N10 #500 = #100 + #101</span></div>
+      </div>
+    </div>
+    <div class="pad-element pad-process" style="--depth: 1">
+      <div class="pad-box">
+        <div class="pad-box-header">
+          <div class="pad-title"><span class="pad-seq-number">N20</span><span class="pad-title-separator">:</span><span class="pad-title-text">値を計算する</span></div>
+          <div class="pad-line-trace">line 4</div>
+        </div>
+        <div class="pad-summary">#&lt;RESULT&gt; に #500 の値を入れます</div>
+        <div class="pad-source"><span>N20 #&lt;RESULT&gt; = #500</span></div>
+      </div>
+    </div>
+    <div class="pad-element pad-selection pad-if-then" style="--depth: 1">
+      <div class="pad-selection-condition">
+        <div class="pad-box pad-condition-box">
+          <div class="pad-box-header">
+            <div class="pad-title"><span class="pad-seq-number">N30</span><span class="pad-title-separator">:</span><span class="pad-title-text">もし [#&lt;RESULT&gt; GT 0] なら</span></div>
+            <div class="pad-line-trace">line 5</div>
+          </div>
+          <div class="pad-summary">条件によって処理が変わります</div>
+          <div class="pad-source"><span>N30 IF [#&lt;RESULT&gt; GT 0] THEN #102 = 1</span></div>
+        </div>
+      </div>
+      <div class="pad-selection-then">
+        <div class="pad-sequence" style="--depth: 2">
+          <div class="pad-sequence-line" aria-hidden="true"></div>
+          <div class="pad-sequence-items">
+            <div class="pad-element pad-process" style="--depth: 3">
+              <div class="pad-box">
+                <div class="pad-box-header">
+                  <div class="pad-title"><span class="pad-seq-number">N30</span><span class="pad-title-separator">:</span><span class="pad-title-text">値を入れる</span></div>
+                  <div class="pad-line-trace">line 5</div>
+                </div>
+                <div class="pad-summary">#102 に 1 を入れます</div>
+                <div class="pad-source"><span>N30 IF [#&lt;RESULT&gt; GT 0] THEN #102 = 1</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pad-element pad-process pad-end" style="--depth: 1">
+      <div class="pad-box">
+        <div class="pad-box-header">
+          <div class="pad-title"><span class="pad-seq-number">N40</span><span class="pad-title-separator">:</span><span class="pad-title-text">プログラムを終了する</span></div>
+          <div class="pad-line-trace">line 6</div>
+        </div>
+        <div class="pad-source"><span>N40 M30</span></div>
+      </div>
+    </div>
+    <div class="pad-element pad-terminal pad-program-end" style="--depth: 1">
+      <div class="pad-terminal-box">
+        <span class="pad-terminal-mark">■</span>
+        <span class="pad-terminal-label">プログラム終了</span>
+      </div>
+    </div>
+  </div>
+</div>
+  </main>
+</body>
+</html>

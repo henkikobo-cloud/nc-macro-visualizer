@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StructuredTree",
+  "type": "object",
+  "required": ["schema_version", "source_name", "root"],
+  "properties": {
+    "schema_version": { "const": "structured-tree/v0.3" },
+    "source_name": { "type": "string" },
+    "root": { "$ref": "#/$defs/node" }
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "title",
+        "summary",
+        "source_line_no",
+        "source_label",
+        "source_text",
+        "children",
+        "condition",
+        "note"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "kind": {
+          "enum": [
+            "sequence",
+            "process",
+            "if_then",
+            "if_then_else",
+            "while_loop",
+            "call",
+            "machine_action",
+            "needs_confirmation",
+            "unstructured_jump",
+            "end"
+          ]
+        },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "source_line_no": { "type": ["integer", "null"] },
+        "source_label": { "type": ["string", "null"] },
+        "source_text": { "type": ["string", "null"] },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } },
+        "condition": { "type": ["string", "null"] },
+        "note": { "type": ["string", "null"] }
+      }
+    }
+  }
+}

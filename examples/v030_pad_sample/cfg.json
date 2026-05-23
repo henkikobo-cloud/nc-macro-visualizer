@@ -1,0 +1,124 @@
+{
+  "schema_version": "cfg/v0.3",
+  "source_name": "04_variables.nc",
+  "nodes": [
+    {
+      "id": "ENTRY",
+      "kind": "entry",
+      "source_line_no": null,
+      "source_label": null,
+      "source_text": null,
+      "statements": [
+        "開始"
+      ]
+    },
+    {
+      "id": "N10",
+      "kind": "basic_block",
+      "source_line_no": 3,
+      "source_label": "10",
+      "source_text": "N10 #500 = #100 + #101",
+      "statements": [
+        "N10 #500 = #100 + #101"
+      ]
+    },
+    {
+      "id": "N20",
+      "kind": "basic_block",
+      "source_line_no": 4,
+      "source_label": "20",
+      "source_text": "N20 #<RESULT> = #500",
+      "statements": [
+        "N20 #<RESULT> = #500"
+      ]
+    },
+    {
+      "id": "N30",
+      "kind": "decision",
+      "source_line_no": 5,
+      "source_label": "30",
+      "source_text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1",
+      "statements": [
+        "N30 IF [#<RESULT> GT 0] THEN #102 = 1"
+      ]
+    },
+    {
+      "id": "N30_THEN",
+      "kind": "basic_block",
+      "source_line_no": 5,
+      "source_label": "30",
+      "source_text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1",
+      "statements": [
+        "#102 = 1"
+      ]
+    },
+    {
+      "id": "N40",
+      "kind": "basic_block",
+      "source_line_no": 6,
+      "source_label": "40",
+      "source_text": "N40 M30",
+      "statements": [
+        "N40 M30"
+      ]
+    },
+    {
+      "id": "EXIT",
+      "kind": "exit",
+      "source_line_no": null,
+      "source_label": null,
+      "source_text": null,
+      "statements": [
+        "終了"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "source": "ENTRY",
+      "target": "N10",
+      "kind": "forward",
+      "condition": null
+    },
+    {
+      "source": "N10",
+      "target": "N20",
+      "kind": "forward",
+      "condition": null
+    },
+    {
+      "source": "N20",
+      "target": "N30",
+      "kind": "forward",
+      "condition": null
+    },
+    {
+      "source": "N30",
+      "target": "N30_THEN",
+      "kind": "branch_true",
+      "condition": "[#<RESULT> GT 0]"
+    },
+    {
+      "source": "N30",
+      "target": "N40",
+      "kind": "branch_false",
+      "condition": "[#<RESULT> GT 0]"
+    },
+    {
+      "source": "N30_THEN",
+      "target": "N40",
+      "kind": "forward",
+      "condition": null
+    },
+    {
+      "source": "N40",
+      "target": "EXIT",
+      "kind": "forward",
+      "condition": null
+    }
+  ],
+  "entry_node_id": "ENTRY",
+  "exit_node_ids": [
+    "EXIT"
+  ]
+}

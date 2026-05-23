@@ -1,0 +1,15 @@
+flowchart TD
+    START(["START"])
+    END(["END"])
+    N10["N10 #500 = #100 + #101"]
+    N20["N20 #&lt;RESULT&gt; = #500"]
+    N30{"N30 IF [#&lt;RESULT&gt; GT 0] THEN #102 = 1"}
+    END_N40(["N40 M30<br/>END"])
+    N30_THEN["THEN #102 = 1"]
+    START --> N10
+    N10 -->|next| N20
+    N20 -->|next| N30
+    N30 -->|THEN| N30_THEN
+    N30_THEN --> END_N40
+    N30 -->|NO| END_N40
+    END_N40 --> END

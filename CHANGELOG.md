@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.3.0 - Unreleased
+
+### Added
+
+- CFG model and `cfg.json` output with `--cfg`.
+- StructuredTree model generated from CFG for beginner-facing PAD-inspired views.
+- PAD-inspired HTML output with `--pad-html` and PAD-inspired text output with `--pad-text`.
+- `--all-views` to generate existing outputs plus beginner flow, structured views, PAD-inspired views, and CFG.
+- JSON schemas for CFG and StructuredTree.
+- Web demo tabs for beginner display, text view, and expert detail view using `sessionStorage`.
+
+### Notes
+
+- Existing v0.2.0 outputs remain unchanged by default.
+- Mermaid remains available as an expert/detail representation.
+- Unstructured jumps are shown as supplemental PAD nodes, not warnings.
+
 ## v0.1.0 - 2026-05-15
 
 MVP stage 1 release.
@@ -31,4 +48,3 @@ MVP stage 1 release.
 - This release is a reading aid, not an NC emulator.
 - It does not guarantee real machine behavior.
 - It does not infer machine-specific M-code meanings.
-

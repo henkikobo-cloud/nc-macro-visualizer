@@ -1,0 +1,378 @@
+:root {
+  color-scheme: light dark;
+  --pad-bg: #ffffff;
+  --pad-paper: #ffffff;
+  --pad-text: #222222;
+  --pad-text-muted: #777777;
+  --pad-line: #999999;
+  --pad-accent: #4a90e2;
+  --pad-seq-color: #2a6fbd;
+  --pad-box-bg: #f7f8f9;
+  --pad-box-border: #cccccc;
+  --pad-box-radius: 6px;
+  --pad-condition-bg: #e8f4fd;
+  --pad-condition-border: #4a90e2;
+  --pad-warn: #8a5a00;
+  --pad-note-bg: #fff7e6;
+  --pad-terminal-bg: #f0f0f0;
+  --pad-terminal-border: #aaaaaa;
+  --pad-terminal-text: #444444;
+  --pad-terminal-mark-color: #666666;
+  --pad-start-color: #2e7d32;
+  --pad-end-color: #c62828;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pad-bg: #071014;
+    --pad-paper: #1a1a1a;
+    --pad-text: #edf4f7;
+    --pad-text-muted: #9a9a9a;
+    --pad-line: #555555;
+    --pad-accent: #66a3e6;
+    --pad-seq-color: #7ab8ff;
+    --pad-box-bg: #2a2a2a;
+    --pad-box-border: #444444;
+    --pad-condition-bg: #1e3a5f;
+    --pad-condition-border: #66a3e6;
+    --pad-warn: #f8c66d;
+    --pad-note-bg: #241d0d;
+    --pad-terminal-bg: #2a2a2a;
+    --pad-terminal-border: #555555;
+    --pad-terminal-text: #cccccc;
+    --pad-terminal-mark-color: #aaaaaa;
+    --pad-start-color: #81c784;
+    --pad-end-color: #e57373;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--pad-bg);
+  color: var(--pad-text);
+  font-family: system-ui, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+  line-height: 1.55;
+}
+
+.pad-page {
+  width: min(1040px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 24px 0 56px;
+}
+
+.pad-disclaimer {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0 0 18px;
+  border: 1px solid var(--pad-line);
+  background: var(--pad-paper);
+  color: var(--pad-warn);
+  padding: 10px 12px;
+}
+
+.pad-root {
+  border: 1px solid var(--pad-box-border);
+  background: var(--pad-paper);
+  padding: 18px;
+}
+
+.pad-sequence {
+  position: relative;
+  padding-left: 1.5rem;
+  min-width: 0;
+}
+
+.pad-sequence-line {
+  position: absolute;
+  left: 0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--pad-line);
+}
+
+.pad-sequence-items {
+  min-width: 0;
+}
+
+.pad-element {
+  position: relative;
+  min-width: 0;
+}
+
+.pad-element + .pad-element {
+  margin-top: 0.5rem;
+}
+
+.pad-element::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 1.5rem;
+  width: 1rem;
+  height: 2px;
+  background: var(--pad-line);
+}
+
+.pad-box {
+  min-height: 58px;
+  border: 1px solid var(--pad-box-border);
+  border-radius: var(--pad-box-radius);
+  background: var(--pad-box-bg);
+  padding: 10px 12px;
+}
+
+.pad-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.pad-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: 800;
+}
+
+.pad-seq-number {
+  flex: 0 0 auto;
+  color: var(--pad-seq-color);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-weight: 800;
+}
+
+.pad-title-separator {
+  flex: 0 0 auto;
+  color: var(--pad-text-muted);
+}
+
+.pad-title-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--pad-text);
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.pad-line-trace {
+  flex: 0 0 auto;
+  color: var(--pad-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.85em;
+  white-space: nowrap;
+}
+
+.pad-summary {
+  margin-top: 4px;
+  color: var(--pad-text-muted);
+}
+
+.pad-source {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  color: var(--pad-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.pad-source span {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.pad-note {
+  margin-top: 8px;
+  border-left: 4px solid var(--pad-warn);
+  background: var(--pad-note-bg);
+  color: var(--pad-text-muted);
+  padding: 8px 10px;
+  font-size: 14px;
+}
+
+.pad-call .pad-box {
+  border-left: 6px double var(--pad-line);
+  border-right: 6px double var(--pad-line);
+}
+
+.pad-end .pad-box {
+  border-radius: var(--pad-box-radius);
+  text-align: left;
+}
+
+.pad-terminal {
+  position: relative;
+  margin: 0.75rem 0;
+}
+
+.pad-terminal-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--pad-terminal-border);
+  border-radius: 999px;
+  background: var(--pad-terminal-bg);
+  font-size: 0.95em;
+}
+
+.pad-terminal-mark {
+  flex: 0 0 auto;
+  color: var(--pad-terminal-mark-color);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.pad-terminal-label {
+  flex: 0 0 auto;
+  color: var(--pad-terminal-text);
+  font-weight: 500;
+}
+
+.pad-start .pad-terminal-mark {
+  color: var(--pad-start-color);
+}
+
+.pad-program-end .pad-terminal-mark {
+  color: var(--pad-end-color);
+}
+
+.pad-needs-confirmation .pad-box,
+.pad-unstructured-jump .pad-box {
+  border-left: 6px solid var(--pad-warn);
+}
+
+.pad-selection {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 1fr;
+  gap: 0;
+  align-items: start;
+  margin: 0.5rem 0;
+}
+
+.pad-selection-condition {
+  position: relative;
+  padding-right: 1rem;
+}
+
+.pad-selection-condition::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 1rem;
+  height: 2px;
+  background: var(--pad-line);
+}
+
+.pad-condition-box {
+  position: relative;
+  border-color: var(--pad-condition-border);
+  border-left: 2px solid var(--pad-accent);
+  background: var(--pad-condition-bg);
+  padding-left: 0.5rem;
+}
+
+.pad-selection-then,
+.pad-selection-else {
+  position: relative;
+  border-left: 2px solid var(--pad-line);
+  padding-left: 1rem;
+  min-width: 0;
+}
+
+.pad-selection-branches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.pad-selection-else {
+  margin-top: 0.5rem;
+}
+
+.pad-branch-divider {
+  margin-bottom: 0.35rem;
+  margin-left: -1rem;
+  padding-left: 0.5rem;
+  display: inline-block;
+  background: var(--pad-paper);
+  color: var(--pad-text-muted);
+  font-size: 0.85rem;
+}
+
+.pad-while-loop {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 1fr;
+  gap: 0;
+  align-items: start;
+  margin: 0.5rem 0;
+}
+
+.pad-while-condition {
+  position: relative;
+  padding-right: 1rem;
+}
+
+.pad-while-condition::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 1rem;
+  height: 2px;
+  background: var(--pad-line);
+}
+
+.pad-while-body {
+  border-left: 4px double var(--pad-accent);
+  border-top: 2px solid var(--pad-accent);
+  border-bottom: 2px solid var(--pad-accent);
+  padding: 0.75rem 0 0.75rem 1rem;
+  min-width: 0;
+}
+
+.pad-empty {
+  min-height: 1px;
+}
+
+@media (max-width: 720px) {
+  .pad-root {
+    padding-right: 12px;
+  }
+
+  .pad-selection,
+  .pad-while-loop {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .pad-selection-condition::after,
+  .pad-while-condition::after {
+    display: none;
+  }
+
+  .pad-selection-then,
+  .pad-selection-else,
+  .pad-while-body {
+    margin-left: 0.65rem;
+  }
+
+  .pad-box-header {
+    align-items: flex-start;
+  }
+}

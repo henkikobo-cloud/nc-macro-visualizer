@@ -1,0 +1,227 @@
+{
+  "source_name": "04_variables.nc",
+  "line_count": 7,
+  "parsed_lines": [
+    {
+      "line_no": 1,
+      "raw_text": "%",
+      "code": "%",
+      "label": null
+    },
+    {
+      "line_no": 2,
+      "raw_text": "O1004",
+      "code": "O1004",
+      "label": null
+    },
+    {
+      "line_no": 3,
+      "raw_text": "N10 #500 = #100 + #101",
+      "code": "N10 #500 = #100 + #101",
+      "label": "10"
+    },
+    {
+      "line_no": 4,
+      "raw_text": "N20 #<RESULT> = #500",
+      "code": "N20 #<RESULT> = #500",
+      "label": "20"
+    },
+    {
+      "line_no": 5,
+      "raw_text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1",
+      "code": "N30 IF [#<RESULT> GT 0] THEN #102 = 1",
+      "label": "30"
+    },
+    {
+      "line_no": 6,
+      "raw_text": "N40 M30",
+      "code": "N40 M30",
+      "label": "40"
+    },
+    {
+      "line_no": 7,
+      "raw_text": "%",
+      "code": "%",
+      "label": null
+    }
+  ],
+  "variables": [
+    {
+      "line_no": 3,
+      "name": "#500",
+      "kind": "assignment",
+      "text": "N10 #500 = #100 + #101"
+    },
+    {
+      "line_no": 3,
+      "name": "#100",
+      "kind": "reference",
+      "text": "N10 #500 = #100 + #101"
+    },
+    {
+      "line_no": 3,
+      "name": "#101",
+      "kind": "reference",
+      "text": "N10 #500 = #100 + #101"
+    },
+    {
+      "line_no": 4,
+      "name": "#<RESULT>",
+      "kind": "assignment",
+      "text": "N20 #<RESULT> = #500"
+    },
+    {
+      "line_no": 4,
+      "name": "#500",
+      "kind": "reference",
+      "text": "N20 #<RESULT> = #500"
+    },
+    {
+      "line_no": 5,
+      "name": "#<RESULT>",
+      "kind": "reference",
+      "text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1"
+    },
+    {
+      "line_no": 5,
+      "name": "#102",
+      "kind": "assignment",
+      "text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1"
+    }
+  ],
+  "variable_summary": [
+    {
+      "name": "#100",
+      "assignments": [],
+      "references": [
+        3
+      ],
+      "count": 1
+    },
+    {
+      "name": "#101",
+      "assignments": [],
+      "references": [
+        3
+      ],
+      "count": 1
+    },
+    {
+      "name": "#102",
+      "assignments": [
+        5
+      ],
+      "references": [],
+      "count": 1
+    },
+    {
+      "name": "#500",
+      "assignments": [
+        3
+      ],
+      "references": [
+        4
+      ],
+      "count": 2
+    },
+    {
+      "name": "#<RESULT>",
+      "assignments": [
+        4
+      ],
+      "references": [
+        5
+      ],
+      "count": 2
+    }
+  ],
+  "controls": [
+    {
+      "line_no": 5,
+      "kind": "IF_THEN",
+      "target": null,
+      "condition": "[#<RESULT> GT 0]",
+      "text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1"
+    }
+  ],
+  "m_codes": [
+    {
+      "line_no": 6,
+      "code": "M30",
+      "description": "program_end_and_rewind",
+      "category": "standard",
+      "text": "N40 M30"
+    }
+  ],
+  "labels": [
+    {
+      "line_no": 3,
+      "label": "10",
+      "text": "N10 #500 = #100 + #101"
+    },
+    {
+      "line_no": 4,
+      "label": "20",
+      "text": "N20 #<RESULT> = #500"
+    },
+    {
+      "line_no": 5,
+      "label": "30",
+      "text": "N30 IF [#<RESULT> GT 0] THEN #102 = 1"
+    },
+    {
+      "line_no": 6,
+      "label": "40",
+      "text": "N40 M30"
+    }
+  ],
+  "calls": [],
+  "loop_ends": [],
+  "variable_dependencies": [
+    {
+      "line_no": 3,
+      "target": "#500",
+      "sources": [
+        "#100",
+        "#101"
+      ],
+      "text": "N10 #500 = #100 + #101"
+    },
+    {
+      "line_no": 4,
+      "target": "#<RESULT>",
+      "sources": [
+        "#500"
+      ],
+      "text": "N20 #<RESULT> = #500"
+    }
+  ],
+  "warnings": [],
+  "flow_edges": [
+    {
+      "source": "START",
+      "target": "N10",
+      "label": ""
+    },
+    {
+      "source": "N10",
+      "target": "N20",
+      "label": "next"
+    },
+    {
+      "source": "N20",
+      "target": "N30",
+      "label": "next"
+    },
+    {
+      "source": "N30",
+      "target": "N40",
+      "label": "IF_THEN"
+    },
+    {
+      "source": "N40",
+      "target": "END",
+      "label": ""
+    }
+  ]
+}

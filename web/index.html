@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Web Demo | NC Macro Visualizer</title>
+    <meta
+      name="description"
+      content="NC Macro Visualizer のブラウザ版デモ。NCファイルやサンプルNCを選んで、フローチャートと注意点を見ながら確認できます。"
+    >
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pad.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <a class="brand" href="../lp/index.html">
+        <span class="brand-mark">NC</span>
+        <span>NC Macro Visualizer</span>
+      </a>
+      <nav aria-label="関連リンク">
+        <a href="../lp/index.html">LP</a>
+        <a href="../README.md">README</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Web Demo / v0.2.0 theme</p>
+          <h1>NCマクロを、まず図で見て確認する</h1>
+          <p class="lead">
+            PC操作に慣れていない人でも、ファイルを選んでボタンを押すだけで、
+            NCマクロの流れ、条件分岐、注意が必要な箇所を同じ画面で確認できます。
+          </p>
+          <div class="big-actions" aria-label="主な操作">
+            <button id="choose-file-button" class="big-button" type="button">
+              <span>1</span>
+              NCファイルを選ぶ
+            </button>
+            <button id="analyze-button" class="big-button primary" type="button">
+              <span>2</span>
+              解析する
+            </button>
+            <button id="save-button" class="big-button" type="button">
+              <span>3</span>
+              結果を保存する
+            </button>
+          </div>
+        </div>
+        <div class="notice">
+          <strong>大事な注意</strong>
+          <p>
+            このツールは実機動作を保証しません。NCプログラムの実行、加工シミュレーション、
+            PMC再現、工具軌跡や干渉の検証は行いません。
+          </p>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Web demo workspace">
+        <div class="input-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Input</p>
+              <h2>確認するNC</h2>
+            </div>
+          </div>
+
+          <input id="file-input" type="file" accept=".nc,.txt,.tap,.min,.mpf,.spf" hidden>
+          <p id="file-name" class="selected-file">サンプルを表示しています。自分のNCファイルも選べます。</p>
+
+          <label for="sample-select">サンプル選択</label>
+          <select id="sample-select">
+            <option value="variables">04_variables.nc / 値のつながりと条件分岐</option>
+            <option value="machineMcode">machine_mcode.nc / 意味の確認が必要なMコード</option>
+            <option value="longJump">06_long_jump_connector.nc / 長いジャンプと合流</option>
+          </select>
+
+          <label for="source-code">NCコード</label>
+          <textarea id="source-code" spellcheck="false"></textarea>
+
+          <p class="hint">
+            選んだファイルはこのブラウザ内で読み込みます。サーバーには送信しません。
+          </p>
+        </div>
+
+        <div class="summary-panel" aria-live="polite">
+          <p class="eyebrow">Result</p>
+          <div class="summary-grid">
+            <article>
+              <span id="line-count">0</span>
+              <small>行数</small>
+            </article>
+            <article>
+              <span id="variable-count">0</span>
+              <small>値</small>
+            </article>
+            <article>
+              <span id="mcode-count">0</span>
+              <small>機械動作</small>
+            </article>
+            <article>
+              <span id="warning-count">0</span>
+              <small>注意点</small>
+            </article>
+          </div>
+          <p class="policy">
+            Mコードは機械ごとに意味が変わることがあります。意味が確認できないMコードは、機械の説明書や担当者に確認してください。
+          </p>
+          <p class="policy">
+            本ツールは機械動作を保証しません。実機での実行前に必ず確認してください。
+          </p>
+        </div>
+      </section>
+
+      <section class="results">
+        <article class="result-card flow-card">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Flow</p>
+              <h2>構造図</h2>
+              <p class="panel-note">PAD図の考え方を参考にした、上から下に読める構造化表示です。</p>
+            </div>
+          </div>
+          <div class="view-tabs" aria-label="表示切替">
+            <button class="view-tab active" type="button" data-view="pad-output">初心者向け表示（PAD図風）</button>
+            <button class="view-tab" type="button" data-view="text-output">テキスト版</button>
+            <button class="view-tab" type="button" data-view="flow-output">詳細表示（専門家向け）</button>
+          </div>
+          <div class="legend" aria-label="色分け">
+            <span class="legend-process">通常処理</span>
+            <span class="legend-decision">条件分岐</span>
+            <span class="legend-sub">サブ処理</span>
+            <span class="legend-machine">機械動作</span>
+            <span class="legend-warning">注意</span>
+          </div>
+          <div id="pad-output" class="ns-output view-panel active"></div>
+          <pre id="text-output" class="structured-text-output view-panel" hidden></pre>
+          <div id="flow-output" class="flow-output view-panel" hidden></div>
+        </article>
+
+        <article class="result-card">
+          <p class="eyebrow">Controls</p>
+          <h2>条件分岐一覧</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>行</th>
+                  <th>種類</th>
+                  <th>条件</th>
+                  <th>飛び先</th>
+                </tr>
+              </thead>
+              <tbody id="controls-output"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="result-card">
+          <p class="eyebrow">Values</p>
+          <h2>値のつながり</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>値</th>
+                  <th>値を入れた行</th>
+                  <th>使っている行</th>
+                  <th>回数</th>
+                </tr>
+              </thead>
+              <tbody id="variables-output"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="result-card">
+          <p class="eyebrow">M Codes</p>
+          <h2>機械動作</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Mコード</th>
+                  <th>行</th>
+                  <th>確認</th>
+                  <th>説明</th>
+                </tr>
+              </thead>
+              <tbody id="mcodes-output"></tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="result-card">
+          <p class="eyebrow">Notes</p>
+          <h2>注意点</h2>
+          <ul id="warnings-output" class="warnings-list"></ul>
+        </article>
+
+        <article class="result-card report-card">
+          <p class="eyebrow">Report</p>
+          <h2>保存用メモ</h2>
+          <pre id="report-output"></pre>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
