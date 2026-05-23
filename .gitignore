@@ -9,3 +9,8 @@ build/
 *.egg-info/
 output/
 CODEX_HANDOFF.md
+docs/claude_code_*
+.env
+.env.*
+*.key
+*.pem
