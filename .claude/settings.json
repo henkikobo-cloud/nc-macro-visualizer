@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(.venv/bin/python -m pytest*)",
+      "Bash(python3 nctool.py*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git tag*)",
+      "Bash(grep*)",
+      "Bash(find*)",
+      "Bash(cat*)",
+      "Bash(ls*)"
+    ],
+    "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-edit-test.sh \"$CLAUDE_FILE_PATH\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-edit-main.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
