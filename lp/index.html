@@ -26,54 +26,98 @@
       </a>
       <nav class="site-nav" aria-label="主要ナビゲーション">
         <a href="#problem">課題</a>
-        <a href="demo/">Webデモ</a>
-        <a href="#outputs">機能</a>
+        <a href="#demo">デモ</a>
         <a href="#scope">対象外</a>
-        <a href="#contact">問い合わせ</a>
+        <a href="#feedback">フィードバック</a>
       </nav>
     </header>
 
     <main id="top">
+
+      <!-- Hero -->
       <section class="hero section">
         <div class="hero-copy">
           <p class="eyebrow">v0.1.0 公開中 / FANUC系NCマクロ読解支援</p>
           <h1>そのNCマクロ、<br>作った本人しか読めない資産になっていませんか？</h1>
           <p class="lead">
             NC Macro Visualizer は、FANUC系NCマクロを静的解析し、
-            NCコードを「何をしている処理か」が分かる一般的なプログラムフローチャートへ翻訳する
-            読解支援ツールです。
-            v0.2.0 の開発テーマは、初心者・PC操作が苦手な人向けのWeb体験版です。
+            NCコードを「何をしている処理か」が分かる一般的なプログラムフローチャートへ翻訳する読解支援ツールです。
           </p>
           <div class="hero-actions" aria-label="導線">
             <a class="button primary" href="demo/">Webデモで試す</a>
             <a class="button" href="https://github.com/henkikobo-cloud/nc-macro-visualizer">GitHubを見る</a>
           </div>
         </div>
-        <div class="terminal-panel" aria-label="NC Macro Visualizer web demo preview">
-          <div class="terminal-bar">
-            <span></span>
-            <span></span>
-            <span></span>
-            <strong>web demo</strong>
+
+        <div class="compare-panel" aria-label="Before/After NCコード比較パネル">
+          <div class="compare-half before-half">
+            <div class="panel-header">
+              <span class="panel-dot dot-red"></span>
+              <span class="panel-dot dot-yellow"></span>
+              <span class="panel-dot dot-green"></span>
+              <span class="panel-label">Before — 生NCコード</span>
+            </div>
+            <pre class="panel-code"><code
+><span class="nc-addr">O</span><span class="nc-num">0100</span>
+<span class="nc-seq">N10</span>  <span class="nc-var">#100</span> = <span class="nc-num">25.0</span>
+<span class="nc-seq">N20</span>  <span class="nc-var">#101</span> = <span class="nc-num">0.5</span>
+<span class="nc-seq">N30</span>  <span class="nc-kw">IF</span> [<span class="nc-var">#100</span> <span class="nc-op">GT</span> <span class="nc-num">20.0</span>] <span class="nc-kw">GOTO</span> <span class="nc-num">80</span>
+<span class="nc-seq">N40</span>  <span class="nc-var">#102</span> = <span class="nc-var">#100</span> <span class="nc-op">*</span> <span class="nc-num">2</span>
+<span class="nc-seq">N50</span>  <span class="nc-addr">G91 G01 X</span><span class="nc-var">#102</span> <span class="nc-addr">F</span><span class="nc-var">#101</span>
+<span class="nc-seq">N60</span>  <span class="nc-var">#100</span> = <span class="nc-var">#100</span> <span class="nc-op">-</span> <span class="nc-num">1.0</span>
+<span class="nc-seq">N70</span>  <span class="nc-kw">GOTO</span> <span class="nc-num">30</span>
+<span class="nc-seq">N80</span>  <span class="nc-addr">M30</span>
+</code></pre>
           </div>
-          <pre><code>1. NCファイルを選ぶ
-2. 解析する
-3. 結果を保存する
 
-サンプル: 04_variables.nc
+          <div class="compare-divider" aria-hidden="true">
+            <span class="divider-icon">→</span>
+          </div>
 
-フローチャート:
-  START
-   ↓
-  N30 条件分岐
-   ├─ はい → N80
-   └─ いいえ → N40
-
-注意点:
-  実機動作は保証しません</code></pre>
+          <div class="compare-half after-half">
+            <div class="panel-header">
+              <span class="panel-dot dot-red"></span>
+              <span class="panel-dot dot-yellow"></span>
+              <span class="panel-dot dot-green"></span>
+              <span class="panel-label panel-label-accent">After — フロー翻訳</span>
+            </div>
+            <div class="flow-nodes" aria-label="フローチャート出力イメージ">
+              <div class="flow-node node-start">START</div>
+              <div class="flow-connector">↓</div>
+              <div class="flow-node node-proc">
+                <div class="node-kind">変数初期化</div>
+                <div class="node-detail">#100 ← 25.0 &nbsp;/&nbsp; #101 ← 0.5</div>
+              </div>
+              <div class="flow-connector">↓</div>
+              <div class="flow-node node-cond">
+                <div class="node-kind">条件分岐</div>
+                <div class="node-detail">#100 &gt; 20.0 ?</div>
+              </div>
+              <div class="flow-branch">
+                <div class="branch-col">
+                  <span class="branch-tag tag-no">NO ↓</span>
+                  <div class="flow-node node-proc node-sm">
+                    <div class="node-detail">#102 ← #100 × 2</div>
+                  </div>
+                  <div class="flow-node node-proc node-sm">
+                    <div class="node-detail">G01 X#102 F#101</div>
+                  </div>
+                  <div class="flow-node node-proc node-sm">
+                    <div class="node-detail">#100 ← #100 − 1.0</div>
+                  </div>
+                  <span class="branch-tag tag-loop">↺ LOOP</span>
+                </div>
+                <div class="branch-col">
+                  <span class="branch-tag tag-yes">YES →</span>
+                  <div class="flow-node node-end">END</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
+      <!-- Problem -->
       <section id="problem" class="section problem-section">
         <div class="section-heading">
           <p class="eyebrow">Problem</p>
@@ -98,63 +142,80 @@
         </div>
       </section>
 
-      <section class="section before-after">
+      <!-- Demo -->
+      <section id="demo" class="section demo-section">
         <div class="section-heading">
-          <p class="eyebrow">Before / After</p>
-          <h2>読む作業を、追跡から確認へ変える</h2>
-        </div>
-        <div class="compare-grid">
-          <article class="compare-card before">
-            <h3>Before</h3>
-            <ul>
-              <li>ラベルとGOTOを目で追い続ける</li>
-              <li>変数の代入元を紙やメモで整理する</li>
-              <li>機械固有Mコードの扱いが曖昧になる</li>
-              <li>レビューが経験者に集中する</li>
-            </ul>
-          </article>
-          <article class="compare-card after">
-            <h3>After</h3>
-            <ul>
-              <li>ブラウザでフローチャートを見る</li>
-              <li>値のつながりを同じ画面で確認する</li>
-              <li>意味の確認が必要なMコードを明示する</li>
-              <li>結果を保存して読解メモとして共有する</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="outputs" class="section outputs-section">
-        <div class="section-heading">
-          <p class="eyebrow">Outputs</p>
-          <h2>人間が理解できる状態にするための3つの出力</h2>
+          <p class="eyebrow">Demo</p>
+          <h2>人間が理解できる状態にするための出力</h2>
           <p>
             目的はNCマクロを実行することではありません。既存資産を読み、レビューし、
             引き継げる形に整えることです。
           </p>
         </div>
-        <div class="output-layout">
-          <div class="flow-preview">
-            <img src="assets/screenshot-flow.png" alt="Mermaid flowchart preview">
+
+        <div class="demo-layout">
+          <div class="demo-pane">
+            <div class="panel-header">
+              <span class="panel-dot dot-red"></span>
+              <span class="panel-dot dot-yellow"></span>
+              <span class="panel-dot dot-green"></span>
+              <span class="panel-label">04_variables.nc</span>
+            </div>
+            <pre class="panel-code"><code
+><span class="nc-seq">N10</span>  <span class="nc-var">#100</span> = <span class="nc-num">10</span>
+<span class="nc-seq">N20</span>  <span class="nc-var">#101</span> = <span class="nc-num">5</span>
+<span class="nc-seq">N30</span>  <span class="nc-var">#102</span> = <span class="nc-var">#100</span> <span class="nc-op">+</span> <span class="nc-var">#101</span>
+<span class="nc-seq">N40</span>  <span class="nc-kw">IF</span> [<span class="nc-var">#102</span> <span class="nc-op">LT</span> <span class="nc-num">20</span>] <span class="nc-kw">GOTO</span> <span class="nc-num">70</span>
+<span class="nc-seq">N50</span>  <span class="nc-addr">G01 X</span><span class="nc-var">#100</span>
+<span class="nc-seq">N60</span>  <span class="nc-kw">GOTO</span> <span class="nc-num">80</span>
+<span class="nc-seq">N70</span>  <span class="nc-addr">G01 X</span><span class="nc-var">#101</span>
+<span class="nc-seq">N80</span>  <span class="nc-addr">M30</span>
+</code></pre>
           </div>
-          <div class="output-list">
-            <article>
-              <h3>フローチャート</h3>
-              <p>N番号やコード行ではなく、値を計算する、条件で分かれる、別プログラムを呼ぶ、といった処理内容へ翻訳して表示します。</p>
-            </article>
-            <article>
-              <h3>値のつながり</h3>
-              <p>どの値がどの行で入り、どの行で使われているかを一覧で確認できます。</p>
-            </article>
-            <article>
-              <h3>保存用メモ</h3>
-              <p>フローチャートを見ながら確認した内容を、Markdown形式のメモとして保存できます。</p>
-            </article>
+
+          <div class="demo-arrow" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+              <path d="M3 13h20M17 7l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>解析</span>
+          </div>
+
+          <div class="demo-pane demo-output-pane">
+            <div class="output-tabs" role="tablist" aria-label="出力タブ">
+              <button class="tab-btn tab-active" role="tab" aria-selected="true">フローチャート</button>
+              <button class="tab-btn" role="tab" aria-selected="false">値のつながり</button>
+              <button class="tab-btn" role="tab" aria-selected="false">メモ</button>
+            </div>
+            <div class="demo-placeholder" aria-label="出力プレビュー準備中">
+              <span class="placeholder-icon" aria-hidden="true">⎙</span>
+              <p>実際の出力画面を準備中</p>
+              <a class="inline-link" href="demo/">Webデモで試す →</a>
+            </div>
+          </div>
+        </div>
+
+        <p class="demo-footer">
+          実際のNCファイルで試すには →
+          <a class="inline-link" href="demo/">Webデモを開く</a>
+        </p>
+
+        <div class="output-features">
+          <div class="output-feature">
+            <h3>フローチャート</h3>
+            <p>N番号ではなく処理内容へ翻訳して表示します。</p>
+          </div>
+          <div class="output-feature">
+            <h3>値のつながり</h3>
+            <p>変数がどの行で入り、どの行で使われるかを一覧で確認できます。</p>
+          </div>
+          <div class="output-feature">
+            <h3>保存用メモ</h3>
+            <p>確認内容をMarkdown形式で保存・共有できます。</p>
           </div>
         </div>
       </section>
 
+      <!-- Scope -->
       <section id="scope" class="section scope-section">
         <div class="section-heading">
           <p class="eyebrow">Scope</p>
@@ -178,48 +239,27 @@
         </div>
       </section>
 
-      <section class="section github-section">
-        <div>
-          <p class="eyebrow">GitHub</p>
-          <h2>まずはWebデモで試せます</h2>
-          <p>
-            NCファイルを選ぶ、解析する、結果を保存する。PC操作に慣れていない人でも、
-            画面を移動せずにフローチャートと注意点を確認できます。CLIは開発者向け操作としてREADMEにまとめています。
-          </p>
-        </div>
-        <div class="github-actions">
-          <a class="button primary" href="demo/">Webデモで試す</a>
-          <a class="button" href="https://github.com/henkikobo-cloud/nc-macro-visualizer#readme">READMEへ</a>
-          <a class="button" href="https://github.com/henkikobo-cloud/nc-macro-visualizer">GitHubへ</a>
-        </div>
-      </section>
-
-      <section class="section profile-section">
-        <div class="section-heading">
-          <p class="eyebrow">Developer</p>
-          <h2>現場資産を、次の人が読める形に残す</h2>
-        </div>
-        <div class="profile-body">
-          <p>
-            NC Macro Visualizer は、製造現場で蓄積されたNCマクロを
-            ブラックボックスのまま放置せず、レビュー可能な技術資産として扱うための小さなツールです。
-          </p>
-          <p>
-            初期版では、あえて実行やシミュレーションに踏み込まず、静的解析と保守的な表示に範囲を絞っています。
-          </p>
+      <!-- Feedback -->
+      <section id="feedback" class="section feedback-section">
+        <div class="feedback-inner">
+          <div class="feedback-copy">
+            <p class="eyebrow">Feedback</p>
+            <h2>このツール、使いますか？</h2>
+            <p>
+              製造現場でNCマクロを扱っている方の感想・要望を歓迎します。
+              未対応のNC方言、読み取りたい構造、出力形式への要望は GitHub Issue で共有してください。
+            </p>
+            <p>
+              実際の現場で「こういうケースが困っている」という声が、次のバージョンの優先順位を決めます。
+            </p>
+          </div>
+          <div class="feedback-actions">
+            <a class="button primary" href="https://github.com/henkikobo-cloud/nc-macro-visualizer/issues">GitHub Issue で意見を送る</a>
+            <a class="button" href="demo/">Webデモを試す</a>
+          </div>
         </div>
       </section>
 
-      <section id="contact" class="section contact-section">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>フィードバック、実例、改善提案を歓迎します</h2>
-          <p>
-            未対応のNC方言、読み取りたい構造、出力形式への要望は、GitHub Issue または README 経由で共有してください。
-          </p>
-        </div>
-        <a class="button primary" href="https://github.com/henkikobo-cloud/nc-macro-visualizer">GitHubで確認</a>
-      </section>
     </main>
   </body>
 </html>
